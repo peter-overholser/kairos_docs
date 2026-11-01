@@ -1,3 +1,5 @@
 theme: jekyll-theme-cayman
 title: Kairos
 description: The best times to be outside
+url: https://peter-overholser.github.io
+baseurl: /kairos_docs

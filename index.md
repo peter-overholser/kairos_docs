@@ -1,3 +1,5 @@
+<img src="assets/apple-touch-icon.png" alt="kairos app icon" width="72" height="72" style="border-radius:16px">
+
 # Kairos — Support
 
 **Kairos** watches the conditions for the things you do outside —

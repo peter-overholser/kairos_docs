@@ -10,7 +10,8 @@
   The activity rides in the URL fragment (#d=…). Browsers never send the fragment
   to a server, so a shared spot's coordinates never reach GitHub; this page reads
   them in the recipient's browser and nowhere else. For the same reason it loads
-  nothing from anywhere: no fonts, no scripts, no analytics.
+  nothing from anywhere else: no fonts, no scripts, no analytics. The one image
+  is the app icon, from this same site.
 
   Everything taken from the link is written with textContent, never innerHTML.
   Anyone can craft one of these links; the page treats it as data.
@@ -22,6 +23,15 @@
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="light dark">
 <title>Shared in kairos</title>
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<!-- The card Messages and other apps draw for a shared link. The fragment
+     (#d=…) isn't part of what a link preview fetches, so the card is generic:
+     the icon and the name, never the spot. -->
+<meta property="og:title" content="Shared in kairos">
+<meta property="og:description" content="An activity shared from kairos, the app that points out the moments worth going outside for.">
+<meta property="og:image" content="https://peter-overholser.github.io/kairos_docs/assets/icon-512.jpg">
+<meta property="og:type" content="website">
 <style>
   :root {
     --bg: #f7f5f0;
@@ -112,10 +122,18 @@
     color: var(--muted);
   }
   [hidden] { display: none !important; }
+  .icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    display: block;
+    margin: 0 0 18px;
+  }
 </style>
 </head>
 <body>
 <main>
+  <img class="icon" src="../assets/apple-touch-icon.png" alt="" width="64" height="64">
   <p class="eyebrow">Shared with you in kairos</p>
   <h1 id="title">A kairos activity</h1>
   <p class="lede" id="lede">Opening…</p>
