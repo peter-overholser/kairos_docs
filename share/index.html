@@ -1,0 +1,238 @@
+<!doctype html>
+<!--
+  The landing page for a shared kairos activity.
+
+  With kairos installed, iOS hands this address straight to the app (a Universal
+  Link) and the page is never seen. Without it, this is what the recipient gets:
+  what was shared, and a way to get the app — rather than the nothing a bare
+  kairos:// link used to produce.
+
+  The activity rides in the URL fragment (#d=…). Browsers never send the fragment
+  to a server, so a shared spot's coordinates never reach GitHub; this page reads
+  them in the recipient's browser and nowhere else. For the same reason it loads
+  nothing from anywhere: no fonts, no scripts, no analytics.
+
+  Everything taken from the link is written with textContent, never innerHTML.
+  Anyone can craft one of these links; the page treats it as data.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<title>Shared in kairos</title>
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --card: #ffffff;
+    --fg: #1d1d1f;
+    --muted: #6e6e73;
+    --line: #e4e1da;
+    --accent: #1e7a4c;
+    --accent-fg: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101112;
+      --card: #1b1c1e;
+      --fg: #f2f2f2;
+      --muted: #9b9ba1;
+      --line: #2c2d30;
+      --accent: #4cc38a;
+      --accent-fg: #0b1f15;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--fg);
+    font: 17px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+  }
+  main {
+    width: 100%;
+    max-width: 440px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 28px 24px 24px;
+  }
+  .eyebrow {
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+  }
+  h1 {
+    margin: 0 0 8px;
+    font-size: 26px;
+    line-height: 1.2;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+  .lede { margin: 0 0 18px; color: var(--muted); }
+  ul {
+    list-style: none;
+    margin: 0 0 22px;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+  li {
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line);
+    overflow-wrap: anywhere;
+  }
+  li::before { content: "◦  "; color: var(--muted); }
+  .actions { display: grid; gap: 10px; }
+  .button {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 13px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    color: var(--fg);
+  }
+  .button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-fg);
+  }
+  .note {
+    margin: 18px 0 0;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Shared with you in kairos</p>
+  <h1 id="title">A kairos activity</h1>
+  <p class="lede" id="lede">Opening…</p>
+  <ul id="spots" hidden></ul>
+  <div class="actions">
+    <a class="button primary" id="open" href="#" hidden>Open in kairos</a>
+    <a class="button" id="get" href="/kairos_docs/">Get kairos</a>
+  </div>
+  <p class="note">This page read the link in your browser. Nothing in it was sent to a server.</p>
+</main>
+<script>
+  // Fill in once the app is listed: https://apps.apple.com/app/id<Apple ID>
+  // (App Store Connect → App Information → Apple ID). Until then "Get kairos"
+  // points at the support page.
+  const APP_STORE_URL = "";
+
+  const $ = (id) => document.getElementById(id);
+
+  function fragmentPayload() {
+    const fragment = location.hash.slice(1);
+    for (const part of fragment.split("&")) {
+      if (part.startsWith("d=")) return part.slice(2);
+    }
+    return null;
+  }
+
+  function base64urlBytes(text) {
+    let b64 = text.replace(/-/g, "+").replace(/_/g, "/");
+    while (b64.length % 4) b64 += "=";
+    const binary = atob(b64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return bytes;
+  }
+
+  // The app compresses with Apple's .zlib, which is raw DEFLATE (RFC 1951) —
+  // "deflate-raw" here. "deflate" is a fallback, not the expected path.
+  async function inflate(bytes) {
+    for (const format of ["deflate-raw", "deflate"]) {
+      try {
+        const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream(format));
+        return new Uint8Array(await new Response(stream).arrayBuffer());
+      } catch (_) { /* try the next format */ }
+    }
+    throw new Error("Couldn't inflate");
+  }
+
+  async function decode(raw) {
+    const marker = raw[0];
+    const bytes = base64urlBytes(raw.slice(1));
+    const json = marker === "z" ? await inflate(bytes) : bytes;
+    return JSON.parse(new TextDecoder().decode(json));
+  }
+
+  function setGetLink() {
+    if (APP_STORE_URL) $("get").href = APP_STORE_URL;
+    else $("get").textContent = "About kairos";
+  }
+
+  function isAppleTouchDevice() {
+    return /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  }
+
+  async function main() {
+    setGetLink();
+    const raw = fragmentPayload();
+    if (!raw) {
+      $("lede").textContent =
+        "This link is missing its activity — links are sometimes cut short when they're copied. Ask for it again.";
+      return;
+    }
+
+    // Offered whether or not the details decode: if the Universal Link didn't
+    // fire (opened in a browser directly, say), this is the way into the app.
+    const open = $("open");
+    open.href = "kairos://activity?d=" + raw;
+    open.hidden = !isAppleTouchDevice();
+
+    let shared;
+    try {
+      shared = await decode(raw);
+    } catch (_) {
+      $("lede").textContent = isAppleTouchDevice()
+        ? "Open this in kairos to see what was shared."
+        : "Open this link on an iPhone with kairos installed to see what was shared.";
+      return;
+    }
+
+    const name = typeof shared.name === "string" && shared.name.trim() ? shared.name.trim() : "An activity";
+    $("title").textContent = name;
+    document.title = name + " · shared in kairos";
+
+    const spots = Array.isArray(shared.spots) ? shared.spots : [];
+    const named = spots
+      .map((spot) => (spot && typeof spot.name === "string" ? spot.name.trim() : ""))
+      .filter(Boolean);
+
+    if (named.length) {
+      const list = $("spots");
+      for (const spotName of named) {
+        const item = document.createElement("li");
+        item.textContent = spotName;
+        list.appendChild(item);
+      }
+      list.hidden = false;
+    }
+
+    const what = named.length
+      ? `Their settings for ${name.toLowerCase()}, with ${named.length === 1 ? "a spot" : named.length + " spots"} — each keeps the conditions it's scored on.`
+      : `Their settings for ${name.toLowerCase()}.`;
+    $("lede").textContent = isAppleTouchDevice()
+      ? what + " Accepting it never changes settings you've already made."
+      : what + " Open this link on an iPhone to add it in kairos.";
+  }
+
+  main();
+</script>
+</body>
+</html>

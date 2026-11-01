@@ -30,8 +30,9 @@ emergency, call your local emergency number.**
 ## The data can be wrong, late, or missing
 
 The app's suggestions are automated estimates built from third-party forecasts —
-including Apple Weather (WeatherKit), NOAA / NOS CO-OPS tide predictions, and
-Open-Meteo air-quality and marine data. Forecasts are inherently uncertain and
+including Apple Weather (WeatherKit), Open-Meteo weather, air-quality, marine,
+and snow data, NOAA / NOS CO-OPS tide predictions, and USGS and NOAA river-flow
+readings and forecasts. Forecasts are inherently uncertain and
 these services can be inaccurate, delayed, incomplete, or unavailable. Conditions
 outdoors can change quickly and differ from any forecast, and can vary a lot over
 short distances and short times.

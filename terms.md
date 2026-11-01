@@ -47,7 +47,8 @@ You agree not to:
 ## Third-party data and services
 
 The app depends on data from third parties (including Apple Weather / WeatherKit,
-NOAA / NOS CO-OPS tide services, and Open-Meteo). We do not control that data and
+Apple Maps, Open-Meteo, NOAA / NOS CO-OPS tide services, USGS and NOAA river
+services, and USGS topographic maps). We do not control that data and
 do not warrant its accuracy, availability, or timeliness. Those providers' own
 terms and privacy policies apply to their data. The app may be unavailable or
 degraded if a provider changes, limits, or discontinues its service.

@@ -1,8 +1,13 @@
 # Kairos — Support
 
-**Kairos** points out the better windows for the things you do outside —
-running, walking, cycling, beachcombing, tidepooling, surfing, and stargazing —
-by looking at weather, air quality, tides, daylight, and the moon.
+**Kairos** watches the conditions for the things you do outside —
+running, walking, cycling, surfing, fishing, rafting and kayaking, skiing,
+beachcombing, tidepooling, stargazing, or anything you set up yourself — and
+points out the prime windows, including the rare ones you'd otherwise miss. No account, no ads, and no
+server of ours: what you set up stays on your phone.
+
+Tides, surf, river flow, and topo maps cover the United States; weather and the
+sky work anywhere.
 
 ## Contact
 
