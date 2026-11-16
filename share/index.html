@@ -29,7 +29,7 @@
      (#d=…) isn't part of what a link preview fetches, so the card is generic:
      the icon and the name, never the spot. -->
 <meta property="og:title" content="Shared in kairos">
-<meta property="og:description" content="An activity shared from kairos, the app that points out the moments worth going outside for.">
+<meta property="og:description" content="An activity shared from kairos, the app that shows you the best times to be outside.">
 <meta property="og:image" content="https://peter-overholser.github.io/kairos_docs/assets/icon-512.jpg">
 <meta property="og:type" content="website">
 <style>
@@ -203,7 +203,7 @@
     const raw = fragmentPayload();
     if (!raw) {
       $("lede").textContent =
-        "This link is missing its activity — links are sometimes cut short when they're copied. Ask for it again.";
+        "This link is missing its activity. Links sometimes get cut short when they're copied, so ask for it again.";
       return;
     }
 
@@ -243,7 +243,7 @@
     }
 
     const what = named.length
-      ? `Their settings for ${name.toLowerCase()}, with ${named.length === 1 ? "a spot" : named.length + " spots"} — each keeps the conditions it's scored on.`
+      ? `Their settings for ${name.toLowerCase()}, with ${named.length === 1 ? "a spot" : named.length + " spots"}. Each spot keeps its own conditions.`
       : `Their settings for ${name.toLowerCase()}.`;
     $("lede").textContent = isAppleTouchDevice()
       ? what + " Accepting it never changes settings you've already made."

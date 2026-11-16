@@ -1,36 +1,41 @@
 <img src="assets/apple-touch-icon.png" alt="kairos app icon" width="72" height="72" style="border-radius:16px">
 
-# Kairos — Support
+# kairos support
 
-**Kairos** watches the conditions for the things you do outside —
-running, walking, cycling, surfing, fishing, rafting and kayaking, skiing,
-beachcombing, tidepooling, stargazing, or anything you set up yourself — and
-points out the prime windows, including the rare ones you'd otherwise miss. No account, no ads, and no
-server of ours: what you set up stays on your phone.
+**kairos** is an iPhone app that watches the forecast for the things you do
+outside and shows you the best times to go. Running, walking, cycling, surfing,
+fishing, rafting and kayaking, skiing, beachcombing, tidepooling and stargazing
+are built in, and you can add your own. There's no account and no ads, and what
+you set up stays on your phone.
 
-Tides, surf, river flow, and topo maps cover the United States; weather and the
+Tides, surf, river flow and topo maps cover the United States. Weather and the
 sky work anywhere.
 
 ## Contact
 
-Questions, problems, or feedback? Email **[dpo10@humboldt.edu](mailto:dpo10@humboldt.edu)**
-and I'll get back to you.
+Questions, problems or ideas? Email **[dpo10@humboldt.edu](mailto:dpo10@humboldt.edu)**.
+I read everything and I'll write back.
 
-## A few common questions
+## Common questions
 
-- **I haven't gotten a notification.** That's expected. Kairos is quiet by
-  design — it only speaks up when conditions are genuinely unusual, so the first
-  alert can take a few days. Your best windows are always on the home screen
-  without needing a notification.
-- **I use Google or Outlook Calendar.** Add that account in the iPhone's
-  **Settings → Calendar**, and Kairos will suggest windows that fit your
-  schedule (it reads whatever your system Calendar shows).
-- **No tide or surf windows.** Tide predictions come from NOAA and cover U.S.
-  coastal areas. Inland or outside the U.S., those features simply don't appear;
-  the rest of the app works normally.
+- **I haven't gotten a notification.** That's normal. kairos only sends one
+  when conditions are unusually good, so the first can take a few days. Your
+  best windows are always on the home screen, with or without a notification.
+- **How do I let kairos see my calendar?** In kairos, tap the sliders button at
+  the top left and scroll to **Calendar**. If you said no when iOS asked, that
+  section has an Open Settings button. From there, tap **Calendars** and choose
+  **Full Access**.
+- **I use Google or Outlook Calendar.** Add that account to your iPhone's
+  Calendar app. kairos reads whatever the Calendar app shows.
+- **I don't see any tide or surf windows.** Tide and surf data come from NOAA
+  and cover US coasts. Inland or outside the US those windows don't appear. The
+  rest of the app works the same.
+- **Is there an Android version?** It's in testing. Email me if you'd like to
+  try it.
 
 ## Documents
 
 - [Privacy Policy](privacy)
 - [Terms of Service](terms)
 - [Health &amp; Safety Disclaimer](disclaimer)
+- [Press](press/)
